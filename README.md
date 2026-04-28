@@ -36,6 +36,17 @@ pip install -r requirements.txt
 uvicorn main:app --reload
 ```
 
+In a second terminal (from project root) start the frontend:
+
+```bash
+cd frontend
+cp .env.example .env.local
+npm install
+npm run dev
+```
+
+Default frontend proxy target is `http://127.0.0.1:8000` via `BACKEND_BASE_URL`.
+
 ## API Endpoints
 
 - `GET /health` - service health check.
@@ -58,4 +69,5 @@ uvicorn main:app --reload
 - The generation pipeline automatically uses GPU when available.
 - YOLO and diffusion model weights are downloaded on first run.
 - Current code uses an in-code secret key placeholder for prototype stage.
+- Frontend uses Next.js API routes as a proxy layer, so backend code and routes remain unchanged.
 

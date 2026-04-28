@@ -1,11 +1,15 @@
 from io import BytesIO
 from typing import Optional
 
+import cv2
+import numpy as np
 import torch
 from fastapi import APIRouter, Form, HTTPException, Request
 from fastapi.responses import Response
 
 from services.image_generator import ImageGenerator
+from services.watermark_encoder import image_to_bytes
+from services.watermark_pipeline import apply_semantic_watermark
 
 
 router = APIRouter()
@@ -46,6 +50,9 @@ async def generate_route(request: Request, prompt: Optional[str] = Form(None)) -
 
     try:
         image = generator.generate(final_prompt)
+        image_rgb = np.array(image.convert("RGB"))
+        image_bgr = cv2.cvtColor(image_rgb, cv2.COLOR_RGB2BGR)
+        marked_bgr, _, _ = apply_semantic_watermark(image_bgr)
     except ValueError as exc:
         raise HTTPException(status_code=400, detail=str(exc)) from exc
     except Exception as exc:
@@ -55,6 +62,5 @@ async def generate_route(request: Request, prompt: Optional[str] = Form(None)) -
             raise HTTPException(status_code=500, detail="GPU memory error") from exc
         raise HTTPException(status_code=500, detail=f"Image generation failed: {exc}") from exc
 
-    buffer = BytesIO()
-    image.save(buffer, format="PNG")
+    buffer = BytesIO(image_to_bytes(marked_bgr, ext=".png"))
     return Response(content=buffer.getvalue(), media_type="image/png")
