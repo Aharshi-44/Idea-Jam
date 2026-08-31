@@ -53,7 +53,7 @@ Default frontend proxy target is `http://127.0.0.1:8000` via `BACKEND_BASE_URL`.
 - `POST /embed` - upload an image and embed watermark.
 - `POST /detect` - upload an image and detect watermark confidence.
 - `POST /attack?type=crop|compress|noise` - apply image attack.
-- `POST /generate` - generate image from prompt (form or JSON prompt).
+- `POST /generate` - generate image from prompt (form or JSON prompt).  
 
 ## Current Pipeline
 
