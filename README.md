@@ -70,4 +70,4 @@ Default frontend proxy target is `http://127.0.0.1:8000` via `BACKEND_BASE_URL`.
 - YOLO and diffusion model weights are downloaded on first run.
 - Current code uses an in-code secret key placeholder for prototype stage.
 - Frontend uses Next.js API routes as a proxy layer, so backend code and routes remain unchanged.
-
+Done by Amol Chaurasia, Kumari Manshi, Ojal Ojaswi and Aharshi Lodh
